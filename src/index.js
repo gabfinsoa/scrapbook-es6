@@ -1,14 +1,44 @@
+//importar lib axios
+const axios = require('axios');
+
 class App {
     constructor(){
         this.buttonCreate = document.getElementById("btn_create");
         this.title = document.getElementById("input_title");
         this.content = document.getElementById("input_content");
-
+        this.getScraps(this);
         this.registerEvents();
     }
 
     registerEvents() {
         this.buttonCreate.onclick = (event) => this.createCard(event);
+    }
+
+    //pegar os cards (GET)
+    getScraps(app){
+        //fazer as chamadas do POSTMAN
+        axios.get('http://localhost:3333/cards')
+        .then(function(response){
+            // console.log(app);
+            app.recoveryScraps(response.data);
+            // this.recoveryScraps(response.data);
+            // console.log(response.data)
+            // console.log(response);
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+        .finally(function(){
+
+        });
+    }
+
+    //quando executar o THEN do getScraps, vai passar a DATA pro recoveryScraps
+    recoveryScraps(data){
+        console.log(data);
+        for(item of data){
+
+        }
     }
 
     createCard(event) {
