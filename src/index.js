@@ -34,7 +34,7 @@ class App {
           })
           .then(function (response) {
             console.log(response.data);
-            this.recoveryScraps(response.data);
+            
           })
           .catch(function (error) {
             console.log(error);
@@ -94,6 +94,7 @@ class App {
             const html = this.cardLayout(this.title.value, this.content.value);
 
             this.postScraps(this.title.value, this.content.value);
+            this.insertHtml(html);
 
             this.clearForm();
 
