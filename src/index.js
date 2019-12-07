@@ -15,6 +15,33 @@ class App {
         this.buttonCreate.onclick = (event) => this.createCard(event);
     }
 
+    // deleteScrap(){
+    //     axios.delete('http://localhost:3333/cards/', {
+    //         params: { id: 1 } })
+    //         .then(response => {
+    //             console.log(response);
+    //         });
+    // }
+
+    postScraps(titulo,conteudo){
+        axios.post('http://localhost:3333/cards/', {
+            title: titulo,
+            content: conteudo
+            // title: 'Fred',
+            // content: 'Flintstone'
+            // topic: 'topic',
+            // logs: fakeData
+          })
+          .then(function (response) {
+            console.log(response.data);
+            this.recoveryScraps(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }
+
     // Funcao p/ pegar os RECADOS/CARDS (GET). APP é o nome criado p/ o THIS do construtor
     getScraps(app){
         //Pegar a constante e fazer as chamadas do POSTMAN (API Node)
@@ -47,8 +74,8 @@ class App {
             //Reaproveitar as funcoes que possuem as mesmas propriedades de ITEM
             const retornaHtml = this.cardLayout(item.title, item.content)
 
-            //Testando se o html esta sendo retornado
-            console.log(retornaHtml);
+            // //Testando se o html esta sendo retornado
+            // console.log(retornaHtml);
 
             //Inserir o HTML no front
             this.insertHtml(retornaHtml);
@@ -66,7 +93,7 @@ class App {
         if(this.title.value && this.content.value) {
             const html = this.cardLayout(this.title.value, this.content.value);
 
-            this.insertHtml(html);
+            this.postScraps(this.title.value, this.content.value);
 
             this.clearForm();
 
@@ -78,6 +105,24 @@ class App {
             alert("Preencha os campos!");
         }
     }
+    // createCard(event) {
+    //     event.preventDefault();
+
+    //     if(this.title.value && this.content.value) {
+    //         const html = this.cardLayout(this.title.value, this.content.value);
+
+    //         this.insertHtml(html);
+
+    //         this.clearForm();
+
+    //         document.querySelectorAll('.delete-card').forEach(item => {
+    //             item.onclick = event => this.deleteCard(event);
+    //         });
+
+    //     } else {
+    //         alert("Preencha os campos!");
+    //     }
+    // }
 
     cardLayout(title, content) {
         const html = `
