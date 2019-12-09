@@ -15,37 +15,34 @@ class App {
         this.buttonCreate.onclick = (event) => this.createCard(event);
     }
 
-    // deleteScrap(){
-    //     axios.delete('http://localhost:3333/cards/', {
-    //         params: { id: 1 } })
-    //         .then(response => {
-    //             console.log(response);
-    //         });
-    // }
 
-    postScraps(titulo,conteudo){
-        axios.post('http://localhost:3333/cards/', {
-            title: titulo,
-            content: conteudo
-            // title: 'Fred',
-            // content: 'Flintstone'
-            // topic: 'topic',
-            // logs: fakeData
-          })
-          .then(function (response) {
-            console.log(response.data);
+    // LINK HEROKU
+    // https://api-scrapbook-js-es6.herokuapp.com/
+
+    // LINK POSTMAN
+    // http://localhost:3333/cards/
+
+
+    // postScraps(titulo,conteudo){
+    //     axios.post('http://localhost:3333/cards/', {
+    //         title: titulo,
+    //         content: conteudo
             
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    //       })
+    //       .then(function (response) {
+    //         console.log(response.data);
+            
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       });
 
-    }
+    // }
 
     // Funcao p/ pegar os RECADOS/CARDS (GET). APP é o nome criado p/ o THIS do construtor
     getScraps(app){
         //Pegar a constante e fazer as chamadas do POSTMAN (API Node)
-        axios.get('http://localhost:3333/cards')
+        axios.get('https://api-scrapbook-js-es6.herokuapp.com/cards')
         .then(function(response){
             // console.log(app);
 
@@ -69,10 +66,10 @@ class App {
         // //Retorna o array de objetos (cards)
         // console.log(data);
         //Percorre o array de objetos (cards)
-        for(item of data){ //dentro de ITEM ha as propriedades ID, TITLE e CONTENT
+        for(item of data){ //dentro de ITEM há as propriedades ID, TITLE e CONTENT
             
             //Reaproveitar as funcoes que possuem as mesmas propriedades de ITEM
-            const retornaHtml = this.cardLayout(item.title, item.content)
+            const retornaHtml = this.cardLayout(item.id, item.title, item.content)
 
             // //Testando se o html esta sendo retornado
             // console.log(retornaHtml);
@@ -91,43 +88,44 @@ class App {
         event.preventDefault();
 
         if(this.title.value && this.content.value) {
-            const html = this.cardLayout(this.title.value, this.content.value);
-
-            this.postScraps(this.title.value, this.content.value);
-            this.insertHtml(html);
-
-            this.clearForm();
-
-            document.querySelectorAll('.delete-card').forEach(item => {
-                item.onclick = event => this.deleteCard(event);
-            });
-
+            this.sendToServer(this);
         } else {
             alert("Preencha os campos!");
         }
     }
-    // createCard(event) {
-    //     event.preventDefault();
+    
+    sendToServer(app) {
+        
+        axios.post(`https://api-scrapbook-js-es6.herokuapp.com/cards`, {
+            title: this.title.value,
+            content: this.content.value
+        })
+        .then(function (response) {
+            //Recebe o ID, TITLE e CONTENT p/ utilizar no HTML
+            const {id, title, content} = response.data;
+            console.log(response.data);
+            let html = app.cardLayout(id, title, content);
 
-    //     if(this.title.value && this.content.value) {
-    //         const html = this.cardLayout(this.title.value, this.content.value);
+            app.insertHtml(html);
 
-    //         this.insertHtml(html);
+            app.clearForm();
 
-    //         this.clearForm();
+            document.querySelectorAll('.delete-card').forEach(item => {
+                item.onclick = event => app.deleteCard(event);
+            });
 
-    //         document.querySelectorAll('.delete-card').forEach(item => {
-    //             item.onclick = event => this.deleteCard(event);
-    //         });
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("Ops! Tente novamente mais tarde.");
+        })
+        .finally(function () {
+        });
+    }
 
-    //     } else {
-    //         alert("Preencha os campos!");
-    //     }
-    // }
-
-    cardLayout(title, content) {
+    cardLayout(id, title, content) {
         const html = `
-            <div class="col mt-5">
+            <div class="col mt-5" scrap="${id}">
                 <div class="card">
                     <div class="card-body">
                     <h5 class="card-title">${title}</h5>
@@ -150,7 +148,19 @@ class App {
         this.content.value = "";
     }
 
-    deleteCard = (event) => event.path[3].remove();
+    deleteCard = (event) => {
+        const id = event.path[3].getAttribute('scrap');
+        
+        axios.delete(`https://api-scrapbook-js-es6.herokuapp.com/cards/${id}`)
+            .then(function (response) {
+                event.path[3].remove();
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+            });
+    };
 
 }
 
