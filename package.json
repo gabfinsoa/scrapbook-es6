@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "build-dev": "webpack --mode development",
-    "dev": "webpack-dev-server --mode development"
+    "dev": "webpack-dev-server --mode development",
+    "start": "node app"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
