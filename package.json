@@ -7,14 +7,12 @@
     "build": "webpack --mode production",
     "build-dev": "webpack --mode development",
     "dev": "webpack-dev-server --mode development",
-    "start": "node index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
-    "dotenv": "^8.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.9.0"
