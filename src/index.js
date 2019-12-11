@@ -1,6 +1,9 @@
 //importar lib axios (Permite realizar requisicoes para fora do projeto atraves de request)
 const axios = require('axios');
 
+// const dotenv = require('dotenv');
+require('dotenv').config();
+
 class App {
     constructor(){
         this.buttonCreate = document.getElementById("btn_create");
