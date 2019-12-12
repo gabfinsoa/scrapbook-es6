@@ -5,7 +5,7 @@ const axios = require('axios');
 class App {
     constructor(){
         this.buttonCreate = document.getElementById("btn_create");
-        this.buttonEdit = document.getElementById("btn_edit");
+        this.buttonEdit = document.getElementById("brn_edit");
         this.title = document.getElementById("input_title");
         this.content = document.getElementById("input_content");
         //URLs de acessos
@@ -28,9 +28,6 @@ class App {
     // LINK POSTMAN
     // http://localhost:3333/cards/
 
-    editCard(event){
-        
-    }
 
     // Funcao p/ pegar os RECADOS/CARDS (GET). APP é o nome criado p/ o THIS do construtor
     getScraps(app){
@@ -70,14 +67,14 @@ class App {
             //Inserir o HTML no front
             this.insertHtml(retornaHtml);
 
-            document.querySelectorAll('.edit-card').forEach(item => {
-                item.onclick = event => this.editCard(event);
-            });
-
             //Inserir tambem o evendo do botao de DELETAR do card
             document.querySelectorAll('.delete-card').forEach(item => {
                 item.onclick = event => this.deleteCard(event);
             });
+
+            document.querySelectorAll('.edit-card').forEach(item => {
+                item.onclick = event => this.openEditCard(event);
+            })
         }
     }
 
@@ -127,8 +124,8 @@ class App {
                     <div class="card-body">
                     <h5 class="card-title">${title}</h5>
                     <p class="card-text">${content}</p>
-                    <button type="button" class="btn btn-danger delete-card">Excluir</button>
                     <button type="button" class="btn btn-primary edit-card">Editar</button>
+                    <button type="button" class="btn btn-danger delete-card">Excluir</button>
                     </div>
                 </div>
             </div>
@@ -140,7 +137,6 @@ class App {
     insertHtml(html) {
         document.getElementById("row_cards").innerHTML += html;
     }
-
 
     clearForm() {
         this.title.value = "";
@@ -160,6 +156,18 @@ class App {
             .finally(function () {
             });
     };
+
+    openEditCard = (event) => {
+        const id = event.path[3].getAttribute('scrap');
+        const title = event.path[1].children[0].innerHTML;
+        const content = event.path[1].children[1].innerHTML;
+
+        document.getElementById('edit-title').value = title;
+        document.getElementById('edit-content').value = content;
+        document.getElementById('edit-id').value = id;
+
+        this.cardEditing = event.path[1];
+    }
 
 }
 

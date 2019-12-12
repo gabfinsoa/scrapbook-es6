@@ -5,7 +5,7 @@ const axios = require('axios');
 class App {
     constructor(){
         this.buttonCreate = document.getElementById("btn_create");
-        this.buttonEdit = document.getElementById("btn_edit");
+        // this.buttonEdit = document.getElementById("btn_edit");
         this.title = document.getElementById("input_title");
         this.content = document.getElementById("input_content");
         //URLs de acessos
@@ -18,7 +18,7 @@ class App {
 
     registerEvents() {
         this.buttonCreate.onclick = (event) => this.createCard(event);
-        this.buttonEdit.onclick = (event) => this.editCard(event);
+        // this.buttonEdit.onclick = (event) => this.editCard(event);
     }
 
 
@@ -28,9 +28,6 @@ class App {
     // LINK POSTMAN
     // http://localhost:3333/cards/
 
-    editCard(event){
-        
-    }
 
     // Funcao p/ pegar os RECADOS/CARDS (GET). APP é o nome criado p/ o THIS do construtor
     getScraps(app){
@@ -107,6 +104,10 @@ class App {
 
             app.clearForm();
 
+            // document.querySelectorAll('.edit-card').forEach(item => {
+            //     item.onclick = event => app.editCard(event);
+            // });
+
             document.querySelectorAll('.delete-card').forEach(item => {
                 item.onclick = event => app.deleteCard(event);
             });
@@ -140,6 +141,51 @@ class App {
     insertHtml(html) {
         document.getElementById("row_cards").innerHTML += html;
     }
+
+    modalLayout(id, title, content){
+        let htmlEdit =`<div class="modal fade" scrap="${id} id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Nova mensagem</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Destinatário:</label>
+                                            <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="form-group">
+                                            <label for="message-text" class="col-form-label">Mensagem:</label>
+                                            <textarea class="form-control" id="message-text"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    <button type="button" id="btn_edit" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>`;
+        return htmlEdit;
+    }
+
+    insertHtmlEdit(htmlEdit) {
+        document.getElementById("row_cards").innerHTML += htmlEdit;
+    }
+
+    editCard(event){
+        // alert(event);
+        console.log(event);
+        this.insertHtmlEdit();
+        
+    }
+
+    
 
 
     clearForm() {
