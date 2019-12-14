@@ -104,9 +104,9 @@ class App {
 
             app.clearForm();
 
-            // document.querySelectorAll('.edit-card').forEach(item => {
-            //     item.onclick = event => app.editCard(event);
-            // });
+            document.querySelectorAll('.edit-card').forEach(item => {
+                item.onclick = event => app.editCard(event);
+            });
 
             document.querySelectorAll('.delete-card').forEach(item => {
                 item.onclick = event => app.deleteCard(event);
