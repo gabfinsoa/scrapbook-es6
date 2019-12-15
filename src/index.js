@@ -9,8 +9,8 @@ class App {
         this.title = document.getElementById("input_title");
         this.content = document.getElementById("input_content");
         //URLs de acessos
-        // this.url = 'https://api-scrapbook-js-es6.herokuapp.com/cards';
-        this.url = 'http://localhost:3333/cards/';
+        this.url = 'https://api-scrapbook-js-es6.herokuapp.com/cards';
+        // this.url = 'http://localhost:3333/cards/';
         //Trazer os recados ao iniciar a aplicacao
         this.getScraps(this); //O THIS passa a aplicação correta
         this.registerEvents();
@@ -130,7 +130,8 @@ class App {
                     <h5 class="card-title">${title}</h5>
                     <p class="card-text">${content}</p>
                     <button type="button" class="btn btn-danger delete-card">Excluir</button>
-                    <button type="button" class="btn btn-primary edit-card" data-toggle="modal" data-target="#meuModal">Editar</button>
+                    <!--Data-toggle / Data-target = modal "alvo" a ser aberto -->
+                    <button type="button" class="btn btn-primary edit-card" data-toggle="modal" data-target="#editModal">Editar</button>
                     </div>
                 </div>
             </div>
